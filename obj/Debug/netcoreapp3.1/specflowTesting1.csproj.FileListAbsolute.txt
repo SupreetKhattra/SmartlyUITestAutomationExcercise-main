@@ -401,7 +401,8 @@ c:\Users\supre\SmartlyUITestAutomationExcercise-main\SmartlyUITestAutomationExce
 c:\Users\supre\SmartlyUITestAutomationExcercise-main\SmartlyUITestAutomationExcercise-main\obj\Debug\netcoreapp3.1\specflowTesting1.AssemblyInfoInputs.cache
 c:\Users\supre\SmartlyUITestAutomationExcercise-main\SmartlyUITestAutomationExcercise-main\obj\Debug\netcoreapp3.1\specflowTesting1.AssemblyInfo.cs
 c:\Users\supre\SmartlyUITestAutomationExcercise-main\SmartlyUITestAutomationExcercise-main\obj\Debug\netcoreapp3.1\specflowTesting1.csproj.CoreCompileInputs.cache
-c:\Users\supre\SmartlyUITestAutomationExcercise-main\SmartlyUITestAutomationExcercise-main\obj\Debug\netcoreapp3.1\specflowTesting1.csproj.CopyComplete
 c:\Users\supre\SmartlyUITestAutomationExcercise-main\SmartlyUITestAutomationExcercise-main\obj\Debug\netcoreapp3.1\specflowTesting1.dll
 c:\Users\supre\SmartlyUITestAutomationExcercise-main\SmartlyUITestAutomationExcercise-main\obj\Debug\netcoreapp3.1\specflowTesting1.pdb
 c:\Users\supre\SmartlyUITestAutomationExcercise-main\SmartlyUITestAutomationExcercise-main\obj\Debug\netcoreapp3.1\specflowTesting1.genruntimeconfig.cache
+c:\Users\supre\SmartlyUITestAutomationExcercise-main\SmartlyUITestAutomationExcercise-main\obj\Debug\netcoreapp3.1\specflowTesting1.sourcelink.json
+c:\Users\supre\SmartlyUITestAutomationExcercise-main\SmartlyUITestAutomationExcercise-main\obj\Debug\netcoreapp3.1\specflow.E954F3AE.Up2Date

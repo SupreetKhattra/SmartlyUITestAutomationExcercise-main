@@ -1,30 +1,3 @@
-using System;
-using System.IO;
-using System.Diagnostics;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Edge;
-using OpenQA.Selenium.Support.UI;
-using TechTalk.SpecFlow;
-using NUnit.Framework;
-using System.Runtime.CompilerServices;
-using OpenQA.Selenium.Support;
-using OpenQA.Selenium.Interactions;
-using System.Runtime.InteropServices;
-using OpenQA.Selenium.DevTools.V119.CSS;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using System.Collections.ObjectModel;
-using OpenQA.Selenium.DevTools.V119.Network;
-using SeleniumExtras.WaitHelpers;
-using OpenQA.Selenium.DevTools.V121.FedCm;
-using WebDriverManager;
-using WebDriverManager.DriverConfigs.Impl;
-using System.Threading.Tasks;
-using System.Drawing;
-using WebDriverManager.Services.Impl;
-//using specflowTesting1.Drivers;
-using specflowTesting1.Utilities;
-
 namespace specflowTesting1.Pages
 {
     public class MyInfoPage
@@ -32,30 +5,27 @@ namespace specflowTesting1.Pages
      private static IWebDriver driver = Driver.WebDriver;
      private readonly WebDriverWait wait = Driver.WDWait(driver);
     BaseClass baseClass = new BaseClass();
-        //Get environment variable fom the YML file. Since tests run in parallel on different browsers
-
-
+     // Define constants for element locators
+    private const string EmployeeNameXPath = "//div[@class='orangehrm-edit-employee-name']";
+    private const string AddButtonXPath = "//i[@class='oxd-icon bi-plus oxd-button-icon']";
+    private const string SaveButtonCssSelector = "button[type='submit']";
+     private const string TrashButtonXPath = "//i[@class='oxd-icon bi-trash']";
+     private const string ConfirmTrashButtonXPath = "//i[@class='oxd-icon bi-trash oxd-button-icon']";
 public void VerifyThefirstNameAndLastNameIsSameAsTheSelectedName(string firstname, string lastname)
 {
-     //Check the epmployee full name is showing on the user profile page.
+//Check the epmployee full name is showing on the user profile page.
 	string fullName = firstname + ' ' + lastname;
-     //IWebElement fieldElement = wait.Until(ExpectedConditions.ElementExists(By.XPath($"//div[@class='orangehrm-edit-employee-name']")));
      
-     // Use a lambda expression as a custom condition - condition being that the text of the employee contains the full name.
      IWebElement employeeFirstName = wait.Until(driver =>
      {
-          // Find the element
-          IWebElement element = driver.FindElement(By.XPath("//div[@class='orangehrm-edit-employee-name']"));
+          IWebElement element = driver.FindElement(By.XPath(EmployeeNameXPath));
 
-          // Check if the text contains the expected value
           if (element.Text.Contains(fullName))
           {
-               // Return the element if the condition is met
                Console.WriteLine($"The employee name matches - Pass");
                return element;
           }
 
-          // Return null if the condition is not met (this will make the wait continue)
           return null;
      });
 
@@ -63,12 +33,12 @@ public void VerifyThefirstNameAndLastNameIsSameAsTheSelectedName(string firstnam
 
 public void ClickAddButtonInTheAttachments()
 {
-	// Scroll to the bottom of the page
+     // Scroll to the bottom of the page
      IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)driver;
      jsExecutor.ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
 
      //Find the plus icon in the Add buon and click it.
-     IWebElement addButton = driver.FindElement(By.XPath("//i[@class='oxd-icon bi-plus oxd-button-icon']"));
+     IWebElement addButton = driver.FindElement(By.XPath(AddButtonXPath));
      addButton.Click();
 }
 
@@ -97,29 +67,27 @@ public void ClickSavebutton()
      while (attempt < maxAttempts)
      {
      //Find all the save butons with the type submit.
-     ReadOnlyCollection<IWebElement> saveButtons = driver.FindElements(By.CssSelector("button[type='submit']"));
+     ReadOnlyCollection<IWebElement> saveButtons = driver.FindElements(By.CssSelector(SaveButtonCssSelector));
+
      //Count the number of buttons found
      int saveButton_counts = saveButtons.Count;
-
      //check there is more than one save button, our save button is the bottom one.
+
      if (saveButton_counts > 2)
      {
           // Double click on the last button
           IWebElement lastSaveButton = saveButtons[saveButton_counts - 1];
-          //lastSaveButton.Click();
-
           // Create an instance of Actions class
           Actions actions = new Actions(driver);
            // Double-click on the div element
           actions.DoubleClick(lastSaveButton).Perform();
 
           Console.WriteLine($"The attachment is Saved - Pass");
-          break; // exit the loop if successful
+          break; 
      }
 
      attempt++;
      }
-
      //if the max attempts are reached and no save buttons found, then the test has failed.
      if (attempt == maxAttempts)
      {
@@ -137,6 +105,7 @@ public void VerifyTheFilenameIsDisplayedInTheAttachmentTable(string fileName, st
           try
           {
                // Fild the element that contains a cell with text that contains the filename.
+
                IWebElement attachmentFile = wait.Until(ExpectedConditions.ElementExists(By.XPath($"//div[contains(text(), '{fileName}')]")));
                Assert.IsNotNull(attachmentFile, $"Attachment File not found - Fail!");
                Console.WriteLine($"attached file is {displayStatus}");
@@ -180,20 +149,15 @@ public void DeleteTheAttachedFile(string fileName)
 {
      try
      {
-          //Currently it is the only trash button so easy to fine. But we should code it better, in case there is more than one file.
-          IWebElement trashButton = wait.Until(ExpectedConditions.ElementExists(By.XPath("//i[@class='oxd-icon bi-trash']")));
+          IWebElement trashButton = wait.Until(ExpectedConditions.ElementExists(By.XPath(TrashButtonXPath)));
           trashButton.Click();
 
-          //((ITakesScreenshot)driver).GetScreenshot().SaveAsFile("trashbutton_clicked.png");
 
-          // Wait for the confirmation trash button to be clickable
-          IWebElement confirmTrashButton = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//i[@class='oxd-icon bi-trash oxd-button-icon']")));
+          IWebElement confirmTrashButton = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(ConfirmTrashButtonXPath)));
           confirmTrashButton.Click();
-          //((ITakesScreenshot)driver).GetScreenshot().SaveAsFile("confirmrashbutton_clicked.png");
      }
      catch
      {
-          //((ITakesScreenshot)driver).GetScreenshot().SaveAsFile("trashbutton_error.png");
           baseClass.TakeScreenshot("DeleteTheAttachedFile_Exception");
           throw new Exception("Attachment File could not be deleted - Fail!");
      }

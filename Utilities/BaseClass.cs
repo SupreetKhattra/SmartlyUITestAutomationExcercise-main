@@ -1,28 +1,10 @@
-using System;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Edge;
-using OpenQA.Selenium.Support.UI;
-using TechTalk.SpecFlow;
-using System.Drawing;
-using System.IO;
-using System.Drawing.Imaging;
-using SeleniumExtras.WaitHelpers;
-using System.Runtime.CompilerServices;
-
-
-
-
 namespace specflowTesting1.Utilities
 {
     public class BaseClass
     {
 
-      //Configuration methods - e.g. launch browser, quit browser
-
-      //Utility methods - e.g. click on element, check radio button
-        public static IWebDriver driver; //= Driver.WebDriver;
-        public static WebDriverWait wait; //= Driver.WDWait(driver);
+        public static IWebDriver driver; 
+        public static WebDriverWait wait; 
 
         public void TakeScreenshot(string screenshotName)
         {
@@ -39,7 +21,7 @@ namespace specflowTesting1.Utilities
             string screenshotDirectory = Path.Combine(projectDirectory, "Screenshots");
 
             // Ensure the directory exists
-            Directory.CreateDirectory(screenshotDirectory);
+           Directory.CreateDirectory(screenshotDirectory);
             string screenshotPath = Path.Combine(screenshotDirectory, screenshotFileName);
             screenshot.SaveAsFile(screenshotPath);
         }
@@ -51,11 +33,10 @@ namespace specflowTesting1.Utilities
         }
         public void Logout()
         {
-          // Cleanup code, such as closing the browser
           Console.WriteLine("Logging out");
           try
           {
-            //Logout 
+              //Logout            
             IWebElement userdropDown = wait.Until(ExpectedConditions.ElementExists(By.XPath("//p[@class='oxd-userdropdown-name']")));
             userdropDown.Click();
             IWebElement logoutOption = wait.Until(ExpectedConditions.ElementExists(By.XPath("//a[text()='Logout']")));

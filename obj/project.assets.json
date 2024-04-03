@@ -736,7 +736,7 @@
           "buildTransitive/Selenium.WebDriver.targets": {}
         }
       },
-      "Selenium.WebDriver.ChromeDriver/121.0.6167.8500": {
+      "Selenium.WebDriver.ChromeDriver/123.0.6312.5800": {
         "type": "package",
         "build": {
           "build/Selenium.WebDriver.ChromeDriver.targets": {}
@@ -3300,10 +3300,10 @@
         "selenium.webdriver.nuspec"
       ]
     },
-    "Selenium.WebDriver.ChromeDriver/121.0.6167.8500": {
-      "sha512": "vGSkTin9LkYpkG5DbTVF78tI2p4Tchw+gnzTxA6JpwLKvaf5mJrNd5TgpfpsMNg5DuI5jsc2oW0ZhrA86wY6fw==",
+    "Selenium.WebDriver.ChromeDriver/123.0.6312.5800": {
+      "sha512": "ACz00kmOxA6TT0bPE8vgvEsstO5CIA0cA+KG4EYBKFP2/KPMee8doGlINVK9NByJ5zkH0Z6pff6m3UNgZPH1Aw==",
       "type": "package",
-      "path": "selenium.webdriver.chromedriver/121.0.6167.8500",
+      "path": "selenium.webdriver.chromedriver/123.0.6312.5800",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3320,7 +3320,7 @@
         "driver/win32/LICENSE.chromedriver",
         "driver/win32/chromedriver.exe",
         "nupkg-icon.png",
-        "selenium.webdriver.chromedriver.121.0.6167.8500.nupkg.sha512",
+        "selenium.webdriver.chromedriver.123.0.6312.5800.nupkg.sha512",
         "selenium.webdriver.chromedriver.nuspec"
       ]
     },
@@ -7396,7 +7396,7 @@
       "NUnit3TestAdapter >= 3.17.0",
       "Selenium.Support >= 4.17.0",
       "Selenium.WebDriver >= 4.17.0",
-      "Selenium.WebDriver.ChromeDriver >= 121.0.6167.8500",
+      "Selenium.WebDriver.ChromeDriver >= 123.0.6312.5800",
       "Selenium.WebDriver.MicrosoftWebDriver >= 10.0.10240",
       "Selenium.WebDriver.WaitExtensions >= 2.0.0",
       "SeleniumExtras.WaitHelpers >= 1.0.2",
@@ -7412,11 +7412,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\supre\\SmartlyUITestAutomationExcercise-main\\SmartlyUITestAutomationExcercise-main\\specflowTesting1.csproj",
+      "projectUniqueName": "C:\\Users\\supre\\SmartlyUITestAutomationExcercise-main\\SmartlyUITestAutomationExcercise-main\\specflowTesting1.csproj",
       "projectName": "specflowTesting1",
-      "projectPath": "c:\\Users\\supre\\SmartlyUITestAutomationExcercise-main\\SmartlyUITestAutomationExcercise-main\\specflowTesting1.csproj",
+      "projectPath": "C:\\Users\\supre\\SmartlyUITestAutomationExcercise-main\\SmartlyUITestAutomationExcercise-main\\specflowTesting1.csproj",
       "packagesPath": "C:\\Users\\supre\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\supre\\SmartlyUITestAutomationExcercise-main\\SmartlyUITestAutomationExcercise-main\\obj\\",
+      "outputPath": "C:\\Users\\supre\\SmartlyUITestAutomationExcercise-main\\SmartlyUITestAutomationExcercise-main\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\supre\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -7480,7 +7480,7 @@
           },
           "Selenium.WebDriver.ChromeDriver": {
             "target": "Package",
-            "version": "[121.0.6167.8500, )"
+            "version": "[123.0.6312.5800, )"
           },
           "Selenium.WebDriver.MicrosoftWebDriver": {
             "target": "Package",

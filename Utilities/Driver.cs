@@ -1,12 +1,3 @@
-using System;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Edge;
-using OpenQA.Selenium.Support.UI;
-using TechTalk.SpecFlow;
-using System.Drawing;
-using SeleniumExtras.WaitHelpers;
-
 namespace specflowTesting1.Utilities
 {
     public class Driver
@@ -14,7 +5,6 @@ namespace specflowTesting1.Utilities
 
         private static IWebDriver _webDriver;
         private static WebDriverWait _webDriverWait;
-        //Get environment variable fom the YML file. Since tests run in parallel on different browsers
         private static string browserType = Environment.GetEnvironmentVariable("BROWSER") ?? "chrome";
         private static string default_headless_option = "";
         
@@ -25,7 +15,6 @@ namespace specflowTesting1.Utilities
                 if (_webDriver == null)
                 {
                     InitializeWebDriver();
-                    // Additional configuration if needed
                     _webDriver.Manage().Window.Maximize();
                     //Increase the browser window size to ensure all elements visible
                     _webDriver.Manage().Window.Size = new Size(1920, 1080);
@@ -52,10 +41,9 @@ namespace specflowTesting1.Utilities
             Console.WriteLine("Browser type is: "); 
             Console.WriteLine(browserType);
 
-            // If browser type is chrome, initialize chrome webdriver
             if (browserType.Equals("chrome", StringComparison.OrdinalIgnoreCase))
             {
-                //setup chrome options
+            // If browser type is chrome, initialize chrome webdriver
                 var options = new ChromeOptions();
                 //Start maximized
                 options.AddArgument("start-maximized");
@@ -109,6 +97,12 @@ namespace specflowTesting1.Utilities
                 Console.WriteLine("driver closed");
             }
         }
+
+        // internal static WebDriverWait WDWait(IWebDriver driver)
+        // {
+        //     throw new NotImplementedException();
+        // }
+
     }
 }
 

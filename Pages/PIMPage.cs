@@ -1,30 +1,3 @@
-using System;
-using System.IO;
-using System.Diagnostics;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Edge;
-using OpenQA.Selenium.Support.UI;
-using TechTalk.SpecFlow;
-using NUnit.Framework;
-using System.Runtime.CompilerServices;
-using OpenQA.Selenium.Support;
-using OpenQA.Selenium.Interactions;
-using System.Runtime.InteropServices;
-using OpenQA.Selenium.DevTools.V119.CSS;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using System.Collections.ObjectModel;
-using OpenQA.Selenium.DevTools.V119.Network;
-using SeleniumExtras.WaitHelpers;
-using OpenQA.Selenium.DevTools.V121.FedCm;
-using WebDriverManager;
-using WebDriverManager.DriverConfigs.Impl;
-using System.Threading.Tasks;
-using System.Drawing;
-using WebDriverManager.Services.Impl;
-//using specflowTesting1.Drivers;
-using specflowTesting1.Utilities;
-
 namespace specflowTesting1.Pages
 {
     public class PIMPage
@@ -32,13 +5,22 @@ namespace specflowTesting1.Pages
 
      private static IWebDriver driver = Driver.WebDriver;
      private readonly WebDriverWait wait = Driver.WDWait(driver);
-     //private readonly ScenarioContext scenarioContext;
      BaseClass baseClass = new BaseClass();
+
+     // Define constants for element locators
+        private const string EmployeeListItemXPath = "//a[text()='Employee List']";
+        private const string EmployeeListPageUrlContains = "viewEmployeeList";
+        private const string AddButtonXPath = "//i[@class='oxd-icon bi-plus oxd-button-icon']";
+        private const string FirstNameInputName = "firstName";
+        private const string LastNameInputName = "lastName";
+        private const string ToggleCreateLoginDetailsButtonSpanClass = "oxd-switch-input--active";
+        private const string SaveButtonCssSelector = "button[type='submit']";
+        private const string InputFieldErrorSpanClass = "oxd-input-field-error-message";
+        private const string SnackBarMessageClass = "oxd-text--toast-message";
 
         public void ClickEmployeeList()
        {
-          // Wait for the EmployeeList option to be visible and click it
-          IWebElement employeeListItem = wait.Until(ExpectedConditions.ElementExists(By.XPath("//a[text()='Employee List']")));
+          IWebElement employeeListItem = wait.Until(ExpectedConditions.ElementExists(By.XPath(EmployeeListItemXPath)));
           employeeListItem.Click();
        }
 
@@ -46,8 +28,7 @@ namespace specflowTesting1.Pages
        {
           try
           {
-               // Wait until the URL contains "viewEmployeeList"
-               wait.Until(driver => driver.Url.Contains("viewEmployeeList"));
+               wait.Until(driver => driver.Url.Contains(EmployeeListPageUrlContains));
                Console.WriteLine("Employee List page is loaded");
           }
           catch (WebDriverTimeoutException)
@@ -60,16 +41,14 @@ namespace specflowTesting1.Pages
 
        public void ClickAddEmployeeButton()
         {
-            // Find the button element by its class name
-            IWebElement addButton = wait.Until(ExpectedConditions.ElementExists(By.XPath("//i[@class='oxd-icon bi-plus oxd-button-icon']")));
+            IWebElement addButton = wait.Until(ExpectedConditions.ElementExists(By.XPath(AddButtonXPath)));
             addButton.Click();
         }
 
         public void EnterTheEmployeeFirstnameAndLastname(string firstname, string lastname)
         {
-          //Enter the employee’s name
-          IWebElement firstName_element = wait.Until(ExpectedConditions.ElementExists(By.Name("firstName")));
-          IWebElement lastName_element = wait.Until(ExpectedConditions.ElementExists(By.Name("lastName")));
+          IWebElement firstName_element = wait.Until(ExpectedConditions.ElementExists(By.Name(FirstNameInputName)));
+          IWebElement lastName_element = wait.Until(ExpectedConditions.ElementExists(By.Name(LastNameInputName)));
 
           firstName_element.SendKeys(firstname);
           lastName_element.SendKeys(lastname);
@@ -77,14 +56,13 @@ namespace specflowTesting1.Pages
 
      public void ToggleCreateLoginDetailsButton()
         {
-            // Find the checkbox element by its class name inside span and click it
-            IWebElement checkbox = driver.FindElement(By.XPath("//span[contains(@class, 'oxd-switch-input--active')]"));
+            IWebElement checkbox = driver.FindElement(By.XPath($"//span[contains(@class, '{ToggleCreateLoginDetailsButtonSpanClass}')]"));
             checkbox.Click();
         }
 
         public void ClickSaveEmployeeButton()
         {
-            IWebElement saveButton = driver.FindElement(By.CssSelector("button[type='submit']"));
+            IWebElement saveButton = driver.FindElement(By.CssSelector(SaveButtonCssSelector));
             saveButton.Click();
         }
 
@@ -97,9 +75,6 @@ namespace specflowTesting1.Pages
      }
      private string FindErrorElement(string fieldName)
      {
-        // Find the parent element with the given field name
-        //IWebElement fieldGroup = FindFieldGroup(fieldName);
-
           int attempt = 0;
           int maxAttempts = 10;
 
@@ -110,9 +85,9 @@ namespace specflowTesting1.Pages
                {
                     // Find the parent element with the given field name
                     IWebElement fieldGroup = FindFieldGroup(fieldName);
-                    IWebElement errorMessage = fieldGroup.FindElement(By.XPath(".//span[contains(@class, 'oxd-input-field-error-message')]"));
-                    //IWebElement errorMessage = wait.Until(driver => fieldGroup.FindElement(By.XPath(".//span[contains(@class, 'oxd-input-field-error-message')]")));
-                    return errorMessage.Text;
+                    IWebElement errorMessage = fieldGroup.FindElement(By.XPath($".//span[contains(@class, '{InputFieldErrorSpanClass}')]"));
+
+                   return errorMessage.Text;
                }
                catch
                {
@@ -129,7 +104,7 @@ namespace specflowTesting1.Pages
         IWebElement fieldGroup = FindFieldGroup(fieldName);
      
         // Locate the span element within the parent element
-        return fieldGroup.FindElement(By.XPath(".//input[contains(@class, 'oxd-input')]"));
+          return fieldGroup.FindElement(By.XPath(".//input[contains(@class, 'oxd-input')]"));
      }
         public void ValidateTheRequiredFieldAreHighlighted(string UsernameErrorMessage, string PasswordErrorMessage, string ConfirmPasswordErrorMessage)
      {
@@ -138,7 +113,6 @@ namespace specflowTesting1.Pages
                string password_error = FindErrorElement("Password");
                string confirmPassword_error = FindErrorElement("Confirm Password");
 
-               //All three messages should be the same.
                if (username_error.Equals(UsernameErrorMessage) && password_error == PasswordErrorMessage && confirmPassword_error == ConfirmPasswordErrorMessage)
                {
                     Console.WriteLine("All three Fields are Required - Pass ");
@@ -151,8 +125,8 @@ namespace specflowTesting1.Pages
              
                }
 
-               //Sometimes the ID field throws an error if the id already exists.
-               //Check the ID error field is blank as well or fail the test.
+                //Sometimes the ID field throws an error if the id already exists.
+               //Check the ID error field is blank as well or fail the test.            
                string EmployeeIDError = FindErrorElement("Employee Id");
                if (EmployeeIDError.Equals(""))
                {
@@ -190,10 +164,10 @@ namespace specflowTesting1.Pages
                int maxAttempts = 20;
 
                //Atempt up to 20 times to check the error messages are gone.
-               while (attempt < maxAttempts)
+             while (attempt < maxAttempts)
                {
-                    //Find the error messages.
-                    string username_error = FindErrorElement("Username");
+                     //Find the error messages.
+                   string username_error = FindErrorElement("Username");
                     string password_error = FindErrorElement("Password");
                     string confirmPassword_error = FindErrorElement("Confirm Password");
 
@@ -223,7 +197,7 @@ namespace specflowTesting1.Pages
         public void EmployeeIsAddedSuccessfullyToTheList(string snackbar_message)
      {
           //Wait until snackbar shows up. 
-          IWebElement snackBar = wait.Until(ExpectedConditions.ElementExists(By.ClassName("oxd-text--toast-message")));
+          IWebElement snackBar = wait.Until(ExpectedConditions.ElementExists(By.ClassName(SnackBarMessageClass)));
           Assert.IsNotNull(snackBar, "SnackBar message 'Successfully Updated' not found. Test failed.");
            
           
@@ -394,7 +368,6 @@ namespace specflowTesting1.Pages
 
 public void ClickSearchButton()
     {
-     //Search button contains the 'submit' text.
 	IWebElement saveButton = wait.Until(ExpectedConditions.ElementExists(By.CssSelector("button[type='submit']")));
      saveButton.Click();
     }
@@ -419,11 +392,9 @@ public void ClickSearchButton()
 
 public void DeleteTheEmployee()
 {
-     //Currently it is the only trash button so easy to fine. But we should code it better, in case there is more than one file.
      IWebElement trashButton = wait.Until(ExpectedConditions.ElementExists(By.XPath("//i[@class='oxd-icon bi-trash']")));
      trashButton.Click();
 
-     // Wait for the confirmation trash button to be clickable
     IWebElement confirmTrashButton = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//i[@class='oxd-icon bi-trash oxd-button-icon']")));
     confirmTrashButton.Click();
 }   

@@ -1,33 +1,3 @@
-// using System.IO;
-// using System.Diagnostics;
-// using OpenQA.Selenium;
-// using OpenQA.Selenium.Chrome;
-// using OpenQA.Selenium.Edge;
-// using OpenQA.Selenium.Support.UI;
-// using NUnit.Framework;
-// using System.Runtime.CompilerServices;
-// using OpenQA.Selenium.Support;
-// using OpenQA.Selenium.Interactions;
-// using System.Runtime.InteropServices;
-// using OpenQA.Selenium.DevTools.V119.CSS;
-// using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-// using System.Collections.ObjectModel;
-// using OpenQA.Selenium.DevTools.V119.Network;
-// using SeleniumExtras.WaitHelpers;
-// using OpenQA.Selenium.DevTools.V121.FedCm;
-// using WebDriverManager;
-// using WebDriverManager.DriverConfigs.Impl;
-// using System.Threading.Tasks;
-// using System.Drawing;
-// using WebDriverManager.Services.Impl;
-//using specflowTesting1.Drivers;
-using System;
-using TechTalk.SpecFlow;
-using specflowTesting1.Utilities;
-using specflowTesting1.Pages;
-using System.Threading;
-
-
 namespace specflowTesting1.Steps
 {
     [Binding]
@@ -40,31 +10,16 @@ namespace specflowTesting1.Steps
      DashboardPage dashboardPage = new DashboardPage();
      PIMPage pIMPage = new PIMPage();
      MyInfoPage myInfoPage = new MyInfoPage();
-
-
-     //Get environment variable fom the YML file. Since tests run in parallel on different browsers
+//Get environment variable fom the YML file. Since tests run in parallel on different browsers
      private string firstname = Environment.GetEnvironmentVariable("FIRSTNAME") ?? "Aaa111";
      private string lastname = Environment.GetEnvironmentVariable("LASTNAME") ?? "Aaa111";
      private string username = Environment.GetEnvironmentVariable("USERNAME") ?? "johndoe567_";
      private string password = Environment.GetEnvironmentVariable("PASSWORD") ?? "password111";
 
-     //runs before each scenario.
-     [BeforeScenario]
-     public void Setup()
+     public AddUserStepDefinitions(ScenarioContext scenarioContext)
      {
-          // Initialize your WebDriver   and WebDriverWait
-          baseClass.InitializeDrivers();
-
-          //Show the variables we are testing with
-          Console.WriteLine($"Variables used: {firstname}, {lastname}, {username}, {password}");
-
+     this.scenarioContext = scenarioContext;
      }
-
-     //Setup a scenario context in case we need to use it.
-       public AddUserStepDefinitions(ScenarioContext scenarioContext)
-       {
-          this.scenarioContext = scenarioContext;
-       }
 
  
      [Given(@"the user is on the login page '(.*)'")]
@@ -79,7 +34,7 @@ namespace specflowTesting1.Steps
           loginPage.EnterLoginDetails(username, password);
        }
 
-       [Given(@"the user should be logged in successfully")]
+       [Then(@"the user should be logged in successfully")]
        public void CheckUserIsLoggedIn()
        {
           bool successfullyLoggedIn = loginPage.VerifyLogIn();
@@ -96,8 +51,7 @@ namespace specflowTesting1.Steps
           }
           else
           {
-               //If the log in was not successful, throw an xception with the relevant message
-               Console.WriteLine("Cannot find or click on PIM button");
+//If the log in was not successful, throw an xception with the relevant message               Console.WriteLine("Cannot find or click on PIM button");
                baseClass.TakeScreenshot("ClickOnPIM_Exception");
                throw new Exception("User is not logged in. Cannot click on PIM.");
           }
@@ -115,7 +69,7 @@ namespace specflowTesting1.Steps
          pIMPage.CheckEmployeeListPage();
        }
 
-     [When (@"the user clicks the Add button")]
+     [Given (@"the user clicks the Add button")]
      public void UserClicksAddEmployeeButton()
           {
                pIMPage.ClickAddEmployeeButton();
@@ -186,7 +140,7 @@ namespace specflowTesting1.Steps
 
      }
 
-[When(@"the user enters the first name and last name")]
+[Given(@"the user enters the first name and last name")]
 public void WhentheuserentersthefirstnameAaaaaandlastnameAaaaaaa()
 {
 	pIMPage.EnterFirstNameAndLastName(firstname, lastname);
@@ -247,21 +201,6 @@ public void Whentheuserdeletestheemployee()
 {
      pIMPage.DeleteTheEmployee();
 }
-
-     [AfterScenario]
-     public void TearDown()
-     {
-          baseClass.Logout();
-
-     }
-
-     [AfterTestRun]
-     public static void AfterTestRun()
-     {
-          //shutdown webdriver
-          BaseClass.CloseDrivers();
-
-     }
 
     }
 }

@@ -1,38 +1,47 @@
-using System;
-using TechTalk.SpecFlow;
-
 namespace specflowTesting1.Hooks
 {
     [Binding]
     public class Hooks
     {
-        private static bool isInitialized;
+    BaseClass baseClass = new BaseClass();
 
-            [BeforeTestRun]
-            public static void BeforeTestRun()
+    public string firstname = Environment.GetEnvironmentVariable("FIRSTNAME") ?? "Aaa111";
+    private string lastname = Environment.GetEnvironmentVariable("LASTNAME") ?? "Aaa111";
+    private string username = Environment.GetEnvironmentVariable("USERNAME") ?? "johndoe567_";
+    private string password = Environment.GetEnvironmentVariable("PASSWORD") ?? "password111";
+
+    private static bool isInitialized;
+
+        [BeforeTestRun]
+        public static void BeforeTestRun()
+        {
+            if (!isInitialized)
             {
-                if (!isInitialized)
-                {
-                    //Initialize();
-                    isInitialized = true;
-                }
+                isInitialized = true;
             }
+        }
 
-            private static void Initialize()
-            {
-                // var revisionInfo = BrowserFetcher.DefaultRevision;
-                // var browserFetcher = new BrowserFetcher(new BrowserFetcherOptions());
-                // var browserPath = browserFetcher.GetExecutablePath(revisionInfo);
+    [BeforeScenario]
+    public void Setup()
+    {
+        baseClass.InitializeDrivers();
 
-                // Console.WriteLine($"Chrome version: {revisionInfo}");
-                // Console.WriteLine($"Chrome path: {browserPath}");
+        //Console.WriteLine($"Variables used: {firstname}, {lastname}, {username}, {password}");
 
-                // // Use browserPath in your Selenium setup if needed
-                // // e.g., set the ChromeDriver executable path
-                // Environment.SetEnvironmentVariable("webdriver.chrome.driver", browserPath);
+    }
+    [AfterScenario]
+     public void TearDown()
+     {
+          baseClass.Logout();
 
-                // // Download the browser executable if not already downloaded
-                // browserFetcher.DownloadAsync(revisionInfo).Wait();
-            }
+     }
+
+     [AfterTestRun]
+     public static void AfterTestRun()
+     {
+          //shutdown webdriver
+          BaseClass.CloseDrivers();
+
+     }
     }
 }
